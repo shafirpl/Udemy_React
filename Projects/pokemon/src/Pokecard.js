@@ -18,11 +18,15 @@ class Pokecard extends Component {
     // This will add the url together, so the url will
     // look like this
     // https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/20.png
+
     let imgSrc = `${POKE_API}${padToThree(this.props.id)}.png`;
     return (
       <div className="Pokecard">
         <h1 className="Pokecard-title">{this.props.name}</h1>
-        <img src={imgSrc} alt={this.props.name} />
+        <div className="Pokecard-image">
+          <img src={imgSrc} alt={this.props.name} />
+        </div>
+
         <div className="Pokecard-data">Type: {this.props.type} </div>
         <div className="Pokecard-data">EXP: {this.props.exp} </div>
       </div>
