@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,IAAI,CAAA;EACA,SAAS,EAAE,IAAI;EACf,OAAO,EAAE,MAAM;EACf,KAAK,EAAE,SAAS;CACnB",
+    "sources": [
+        "Die.scss"
+    ],
+    "names": [],
+    "file": "Die.css"
+}
