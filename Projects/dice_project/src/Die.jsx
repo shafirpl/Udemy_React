@@ -7,7 +7,11 @@ class Die extends Component {
     // let cls = `fas fa-dice-${this.props.face}`;
     //<i className={cls}></i>
     return (
-    <i className={`Die fas fa-dice-${this.props.face}`} />
+      // <i className={`Die fas fa-dice-${this.props.face} 
+      // ${this.props.rolling? 'shaking': ''}`} />
+
+      <i className={`Die fas fa-dice-${this.props.face} 
+      ${this.props.rolling && "shaking"}`} />
     );
   }
 }
