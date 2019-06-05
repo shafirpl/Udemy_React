@@ -1,8 +1,10 @@
 import React, { Component } from "react";
+import {choice} from './helper.jsx';
+import Coin from './Coin.jsx';
 
 class CoinContainer extends Component {
   static defaultProps = {
-    conins: [
+    coins: [
       { side: "heads", imgSrc: "https://tinyurl.com/react-coin-heads-jpg" },
       { side: "tails", imgSrc: "https://tinyurl.com/react-coin-tails-jpg" }
     ]
@@ -19,7 +21,15 @@ class CoinContainer extends Component {
   }
 
   flipCoin(){
-
+    const newCoin = choice(this.props.coins);
+    this.setState(st => {
+      return {
+        currCoin: newCoin,
+        nFlips: st.nFlips + 1,
+        nHeads: st.nHeads + (newCoin.side === "heads" ? 1 : 0),
+        nTails: st.nTails + (newCoin.side === "tails" ? 1 : 0),
+      };
+    });
   }
   handleClick(e){
     this.flipCoin();
@@ -28,9 +38,16 @@ class CoinContainer extends Component {
     return (
       <div className="coinContainer">
         <h2>Let's Flip A Coin</h2>
-        <button 
-        onClick = {this.handleClick}
-        className="btn btn-primary">
+        {/* Here since at the begining the curr coin is null, so we will get 
+        an error saying can't read property of null, in order to fix this, we 
+        check if the currCoin is null or not */}
+
+        {/* Here we are passing the entire state object to the coin 
+        component */}
+        {this.state.currCoin && <Coin info={this.state.currCoin} /> }
+        <button
+          onClick={this.handleClick}
+          className="btn btn-primary">
           Flips Me!
         </button>
         <p>
