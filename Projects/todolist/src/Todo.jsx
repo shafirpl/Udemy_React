@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './Todo.css';
 
 class Todo extends Component {
     constructor(props) {
@@ -11,6 +12,7 @@ class Todo extends Component {
         this.toggleForm = this.toggleForm.bind(this);
         this.handleUpdate = this.handleUpdate.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleToggle = this.handleToggle.bind(this);
     }
 
     toggleForm() {
@@ -32,6 +34,16 @@ class Todo extends Component {
     handleUpdate(evt) {
         evt.preventDefault();
         //take new task data aand pass up to parent
+        this.props.updateTodo(this.props.id, this.state.task);
+        // now we need to set the isediting to false, otherwise
+        // the form will be stuck in input mode
+        this.setState({
+            isEditing: false
+        });
+    }
+
+    handleToggle(evt){
+        this.props.toggleTodo(this.props.id);
     }
 
     render() {
@@ -54,7 +66,13 @@ class Todo extends Component {
                 <div>
                     <button onClick={this.toggleForm}>Edit</button>
                     <button onClick={this.handleRemove}>X</button>
-                    <li>{this.props.task}</li>
+                    {/* we could also do <li className={this.props.completed && 'completed'}>{this.props.task}</li> */}
+                    {/* this is basically to have a strikethrough effect to see when a class is completed */}
+                    <li
+                        className={this.props.completed ? 'completed' : ""}
+                        onClick={this.handleToggle}>
+                        {this.props.task}
+                    </li>
                 </div>)
         }
         return (
