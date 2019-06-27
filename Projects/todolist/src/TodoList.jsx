@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Todo from './Todo.jsx';
 import NewTodoForm from './NewTodoForm.jsx';
+import "./TodoList.css";
 
 class TodoList extends Component {
     constructor(props) {
@@ -86,12 +87,12 @@ class TodoList extends Component {
                 toggleTodo = {this.toggleCompletion} />
         })
         return (
-            <div>
-                <h1>ToDo List</h1>
-                <NewTodoForm createTodo={this.create} />
+            <div className="TodoList">
+                <h1>Todo List! <span>A Simple Todo List App</span>  </h1>
                 <ul>
                     {todos}
                 </ul>
+                <NewTodoForm createTodo={this.create} />
             </div>
         );
     }

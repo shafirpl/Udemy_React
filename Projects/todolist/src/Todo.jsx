@@ -42,7 +42,7 @@ class Todo extends Component {
         });
     }
 
-    handleToggle(evt){
+    handleToggle(evt) {
         this.props.toggleTodo(this.props.id);
     }
 
@@ -50,8 +50,10 @@ class Todo extends Component {
         let result;
         if (this.state.isEditing) {
             result = (
-                <div>
-                    <form onSubmit={this.handleUpdate}>
+                <div className="Todo">
+                    <form
+                        className="Todo-edit-form"
+                        onSubmit={this.handleUpdate}>
                         <input
                             type="text"
                             value={this.state.task}
@@ -63,13 +65,13 @@ class Todo extends Component {
             )
         } else {
             result = (
-                <div>
+                <div className="Todo">
                     <button onClick={this.toggleForm}>Edit</button>
                     <button onClick={this.handleRemove}>X</button>
                     {/* we could also do <li className={this.props.completed && 'completed'}>{this.props.task}</li> */}
                     {/* this is basically to have a strikethrough effect to see when a class is completed */}
                     <li
-                        className={this.props.completed ? 'completed' : ""}
+                        className={this.props.completed ? "Todo-task completed" : "Todo-task"}
                         onClick={this.handleToggle}>
                         {this.props.task}
                     </li>
