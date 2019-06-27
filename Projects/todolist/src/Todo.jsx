@@ -1,87 +1,93 @@
-import React, { Component } from 'react';
-import './Todo.css';
+import React, { Component } from "react";
+import "./Todo.css";
 
 class Todo extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            isEditing: false,
-            task: this.props.task
-        }
-        this.handleRemove = this.handleRemove.bind(this);
-        this.toggleForm = this.toggleForm.bind(this);
-        this.handleUpdate = this.handleUpdate.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-        this.handleToggle = this.handleToggle.bind(this);
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      isEditing: false,
+      task: this.props.task
+    };
+    this.handleRemove = this.handleRemove.bind(this);
+    this.toggleForm = this.toggleForm.bind(this);
+    this.handleUpdate = this.handleUpdate.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleToggle = this.handleToggle.bind(this);
+  }
 
-    toggleForm() {
-        this.setState({
-            isEditing: !this.state.isEditing
-        })
-    }
+  toggleForm() {
+    this.setState({
+      isEditing: !this.state.isEditing
+    });
+  }
 
-    handleChange(evt) {
-        this.setState({
-            [evt.target.name]: evt.target.value
-        })
-    }
+  handleChange(evt) {
+    this.setState({
+      [evt.target.name]: evt.target.value
+    });
+  }
 
-    handleRemove() {
-        this.props.removeTodo(this.props.id);
-    }
+  handleRemove() {
+    this.props.removeTodo(this.props.id);
+  }
 
-    handleUpdate(evt) {
-        evt.preventDefault();
-        //take new task data aand pass up to parent
-        this.props.updateTodo(this.props.id, this.state.task);
-        // now we need to set the isediting to false, otherwise
-        // the form will be stuck in input mode
-        this.setState({
-            isEditing: false
-        });
-    }
+  handleUpdate(evt) {
+    evt.preventDefault();
+    //take new task data aand pass up to parent
+    this.props.updateTodo(this.props.id, this.state.task);
+    // now we need to set the isediting to false, otherwise
+    // the form will be stuck in input mode
+    this.setState({
+      isEditing: false
+    });
+  }
 
-    handleToggle(evt) {
-        this.props.toggleTodo(this.props.id);
-    }
+  handleToggle(evt) {
+    this.props.toggleTodo(this.props.id);
+  }
 
-    render() {
-        let result;
-        if (this.state.isEditing) {
-            result = (
-                <div className="Todo">
-                    <form
-                        className="Todo-edit-form"
-                        onSubmit={this.handleUpdate}>
-                        <input
-                            type="text"
-                            value={this.state.task}
-                            name="task"
-                            onChange={this.handleChange} />
-                        <button>Save</button>
-                    </form>
-                </div>
-            )
-        } else {
-            result = (
-                <div className="Todo">
-                    <button onClick={this.toggleForm}>Edit</button>
-                    <button onClick={this.handleRemove}>X</button>
-                    {/* we could also do <li className={this.props.completed && 'completed'}>{this.props.task}</li> */}
-                    {/* this is basically to have a strikethrough effect to see when a class is completed */}
-                    <li
-                        className={this.props.completed ? "Todo-task completed" : "Todo-task"}
-                        onClick={this.handleToggle}>
-                        {this.props.task}
-                    </li>
-                </div>)
-        }
-        return (
-            result
-
-        )
+  render() {
+    let result;
+    if (this.state.isEditing) {
+      result = (
+        <div className="Todo">
+          <form className="Todo-edit-form" onSubmit={this.handleUpdate}>
+            <input
+              type="text"
+              value={this.state.task}
+              name="task"
+              onChange={this.handleChange}
+            />
+            <button>Save</button>
+          </form>
+        </div>
+      );
+    } else {
+      result = (
+        <div className="Todo">
+          {/* we could also do <li className={this.props.completed && 'completed'}>{this.props.task}</li> */}
+          {/* this is basically to have a strikethrough effect to see when a class is completed */}
+          <li
+            className={
+              this.props.completed ? "Todo-task completed" : "Todo-task"
+            }
+            onClick={this.handleToggle}
+          >
+            {this.props.task}
+          </li>
+          <div className="Todo-buttons">
+            <button onClick={this.toggleForm}>
+              <i className="fas fa-pen" />
+            </button>
+            <button onClick={this.handleRemove}>
+              <i className="fas fa-trash" />
+            </button>
+          </div>
+        </div>
+      );
     }
+    return result;
+  }
 }
 
 export default Todo;
