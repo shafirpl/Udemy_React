@@ -7,6 +7,9 @@ import { ones, twos, threes, fours, fives, sixes, threeOfKind, fourOfKind, fullH
 class ScoreTable extends Component {
 
   render() {
+    // I am guessing here it will match with variable
+    // so it is like, scores = this.props.scores
+    // doScore = this.props.doScore
     const { scores, doScore } = this.props;
 
     return (
