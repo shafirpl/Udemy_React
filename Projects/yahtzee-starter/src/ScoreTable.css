@@ -5,6 +5,7 @@
   width: 80%;
   background-color: white;
   padding: 1em;
+  cursor: pointer;
 }
 
 .ScoreTable table {

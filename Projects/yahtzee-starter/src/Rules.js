@@ -19,6 +19,12 @@ class Rule {
     return dice.reduce((prev, curr) => prev + curr);
   }
 
+  /*
+  * Watch from 2:28 to 3:54
+  * to understand what this function does
+  * https://www.udemy.com/modern-react-bootcamp/learn/lecture/14375922?start=15#questions
+  * 
+  */
   freq(dice) {
     // frequencies of dice values
     const freqs = new Map();
@@ -51,6 +57,19 @@ class TotalOneNumber extends Rule {
 class SumDistro extends Rule {
   evalRoll = dice => {
     // do any of the counts meet of exceed this distro?
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/some
+    /* 
+    * so freq gives us an array, remember, freq array just gives us how many are there of number
+    * so if we have [1,2,2,3] we would get after running the freq thing [1,2,1] or we have
+    * 1 of something where the value is 1, 2 of something where the value is 2, and so on
+    * Then if we read the mozila documentation of some function, we are running that some function
+    * on the returned array from freq, so after lets say freq returned 
+    * [1,2,1] , we have [1,2,1].some(), and what some does is take every value 
+    * and see if they meet a conditon, if any of those values meet conditon, it returns true,
+    * otherwise it returns false.
+    * So if it reutnres true, we run the sum function.
+    */
+
     return this.freq(dice).some(c => c >= this.count) ? this.sum(dice) : 0;
   };
 }
@@ -71,6 +90,20 @@ class SmallStraight {
 
 class LargeStraight extends Rule {
   evalRoll = dice => {
+    /* 
+    * set gives us a unique stuff, so 
+    * here since dice is an array, if we have [1,1,2,3,4,5]
+    * then d will be equal to [1,2,3,4,5], the second 1 will be
+    * eliminated to maintain uniqueness.
+    * The reason is, for LargeStraight, they have to be all 
+    * different. So if we had lets say [1,2,2,3,4,6] then
+    * it would not be straight six. One easy way to see
+    * that is to make a set ouf of the dice array, and if the
+    * length of that array is 5, which means all of them are 
+    * unique, then it is Large straight six.
+    * Also we can't have [1,3,4,5,6], we can only have only one
+    * 1 or 6, that is why we need the checking part
+    */
     const d = new Set(dice);
 
     // large straight must be 5 different dice & only one can be a 1 or a 6
@@ -107,6 +140,8 @@ const smallStraight = "TODO";
 const largeStraight = new LargeStraight({ score: 40 });
 
 // yahtzee scores as 50
+// https://www.udemy.com/modern-react-bootcamp/learn/lecture/14375922?start=15#questions
+// watch from 10:17 to 10:44
 const yahtzee = new Yahtzee({ score: 50 });
 
 // for chance, can view as some of all dice, requiring at least 0 of a kind

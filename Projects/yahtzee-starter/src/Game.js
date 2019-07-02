@@ -44,19 +44,49 @@ class Game extends Component {
     };
     this.roll = this.roll.bind(this);
     this.doScore = this.doScore.bind(this);
+    this.toggleLocked = this.toggleLocked.bind(this);
   }
 
+  /*
+  * This is the magic function that rolls 
+  * the dice 
+  * https://www.w3schools.com/jsref/jsref_map.asp
+  * Good explanation of how it works for multi parameters
+  */
   roll(evt) {
     // roll dice whose indexes are in reroll
+
+    /*
+    * So whats is doing is that, lets say we locked
+    * or paused dice at index 2 which had value say 5
+    * We want to keep the value 5 for that locked dice
+    * but for other dice, we want to generate random numbers
+    * That is what it is doing, if the index is locked, keep
+    * the value as it is, but then if it is not locked, 
+    * generate a random number
+    */
     this.setState(st => ({
       dice: st.dice.map((d, i) =>
         st.locked[i] ? d : Math.ceil(Math.random() * 6)
       ),
+      /*
+      * This part is checking how many rolls left, if 
+      * there is more than 1 roll left, then 
+      * we don't need any change
+      * Otherwise, fill every element in locked
+      * array with true value
+      */
       locked: st.rollsLeft > 1 ? st.locked : Array(NUM_DICE).fill(true),
       rollsLeft: st.rollsLeft - 1
     }));
   }
 
+  /* 
+  * we will pass down this function into two components,
+  * first we will pass it to the Dice component, and from there
+  * we will pass it to the Die component, from which the 
+  * function will be actually triggered
+  */
   toggleLocked(idx) {
     // toggle whether idx is in locked or not
 
@@ -94,9 +124,16 @@ class Game extends Component {
   /*
    * rulefn is a function itself
    * we are passing the function to the ScoreTable component, from which we will pass it
+   * Look first at the Rules.js file to understand how the evalRol function works
+   * in the defined classes, then look at ScoreTable.js file to understand
+   * what function and value are being passed into it
+   * Then watch from 12:20
+   * https://www.udemy.com/modern-react-bootcamp/learn/lecture/14375922#questions
+   * 
    */
+
   doScore(rulename, ruleFn) {
-    // evaluate this ruleFn with the dice and score this rulename
+    // evaluate this ruleFn function with the dice and score this rulename
     this.setState(st => ({
       scores: {
         ...st.scores,
