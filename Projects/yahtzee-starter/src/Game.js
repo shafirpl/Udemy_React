@@ -112,13 +112,15 @@ class Game extends Component {
       * 
       */
 
-    this.setState(st => ({
-      locked: [
-        ...st.locked.slice(0, idx),
-        !st.locked[idx],
-        ...st.locked.slice(idx + 1)
-      ]
-    }));
+      if (this.state.rollsLeft > 0) {
+        this.setState(st => ({
+          locked: [
+            ...st.locked.slice(0, idx),
+            !st.locked[idx],
+            ...st.locked.slice(idx + 1)
+          ]
+        }));
+      }
   }
 
   /*
@@ -159,7 +161,16 @@ class Game extends Component {
             <div className="Game-button-wrapper">
               <button
                 className="Game-reroll"
-                disabled={this.state.locked.every(x => x)}
+                /* 
+                * What this is doing is that,
+                * locked array lookes like this
+                * [true,false,true,false,true] or 
+                * something like this. 
+                * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/every
+                * Now every will return true if every element is true in the locked array, so the button
+                * will get disabled if every element in locked array is true
+                */
+                disabled={this.state.locked.every(x => x) || this.state.rollsLeft === 0}
                 onClick={this.roll}
               >
                 {this.state.rollsLeft}
