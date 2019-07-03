@@ -2,9 +2,21 @@ import React, { Component } from "react";
 import "./Die.css";
 
 class Die extends Component {
+  static defaultProps = {
+    numberWords: ["one", "two", "three", "four", "five", "six"],
+    /* 
+    * the reason we have val is, first the Dice array
+    * is undefined, so at the begining of the game
+    * none of the die has vals, but that would
+    * prevent from showing the rolling animation at 
+    * the begining. That is why we assign a val 
+    * so that the dies show up and allow the
+    * rolling animation
+    */
+    val: 5
+  }
   constructor(props){
     super(props);
-
     this.handleClick = this.handleClick.bind(this);
   }
   handleClick(){
@@ -14,10 +26,22 @@ class Die extends Component {
     this.props.handleClick(this.props.idx);
   }
   render() {
+    /*
+    * This is equivalent to using
+    * const val = this.props.val;
+    * const locked = this.props.locked
+    * And so on
+    */
+    const {numberWords, locked, val, disabled, rolling} = this.props;
+    let index = numberWords[val-1];
+    let classes = `Die fas fa-dice-${index} fa-5x `;
+    if(locked) classes += "Die-locked ";
+    if (rolling) classes += "Die-rolling";
     return (
-      <button
-        className={"Die"}
-        style={{ backgroundColor: this.props.locked ? "grey" : "black" }}
+      <i
+        className={classes}
+        // style={{ backgroundColor: this.props.locked ? "grey" : "black" }}
+
         // This handleClick function is passed from Dice, which was
         // then passed from Game.js, and it will trigger the toggleLocked
         // function defined in Game.js
@@ -35,9 +59,9 @@ class Die extends Component {
         // Remember, we are sending the index number from the Dice 
         // Component to this component as props.
         onClick = {this.handleClick }
+        disabled = {disabled}
       >
-        {this.props.val}
-      </button>
+      </i>
     );
   }
 }

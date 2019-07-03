@@ -26,6 +26,7 @@ class Game extends Component {
       // in order to track which element was paused/locked
       locked: Array(NUM_DICE).fill(false),
       rollsLeft: NUM_ROLLS,
+      rolling: false,
       scores: {
         ones: undefined,
         twos: undefined,
@@ -45,8 +46,31 @@ class Game extends Component {
     this.roll = this.roll.bind(this);
     this.doScore = this.doScore.bind(this);
     this.toggleLocked = this.toggleLocked.bind(this);
+    this.animateRoll = this.animateRoll.bind(this);
   }
 
+  /*
+  * This is a life cycle method
+  * it will call the animateRoll funciton
+  * As soon as the Game component, or this
+  * component gets rendered
+  */
+  componentDidMount(){
+    this.animateRoll();
+  };
+  /*
+  * this function will first do the rolling animation
+  * for the dices, and then call the roll function to 
+  * generate the random numbers
+  * The reason we have 1s, because we defined our 
+  * animation to be 1 second in Die.css, so call the roll function 
+  * after the animation finishes
+  */
+  animateRoll(){
+    this.setState({ rolling: true}, () => {
+      setTimeout(this.roll, 1000);
+    })
+  }
   /*
   * This is the magic function that rolls 
   * the dice 
@@ -77,7 +101,8 @@ class Game extends Component {
       * array with true value
       */
       locked: st.rollsLeft > 1 ? st.locked : Array(NUM_DICE).fill(true),
-      rollsLeft: st.rollsLeft - 1
+      rollsLeft: st.rollsLeft - 1,
+      rolling: false
     }));
   }
 
@@ -112,7 +137,7 @@ class Game extends Component {
       * 
       */
 
-      if (this.state.rollsLeft > 0) {
+      if (this.state.rollsLeft > 0 && !this.state.rolling) {
         this.setState(st => ({
           locked: [
             ...st.locked.slice(0, idx),
@@ -144,19 +169,38 @@ class Game extends Component {
       rollsLeft: NUM_ROLLS,
       locked: Array(NUM_DICE).fill(false)
     }));
-    this.roll();
+    this.animateRoll();
   }
 
+  displayRollInfo(){
+    const messages = [
+      "0 Rolls Left",
+      "1 Roll Left",
+      "2 Rolls Left",
+      "Starting Round"
+    ]
+    return messages[this.state.rollsLeft];
+  }
   render() {
+    /*
+    * this is equivalent to
+    * this.dice = this.state.dice;
+    * this.locked = this.state.locked;
+    * this.rollsLeft = this.state.rollsLeft
+    * and so on
+    */
+   const {dice, locked, rollsLeft, rolling, scores} = this.state;
     return (
       <div className="Game">
         <header className="Game-header">
           <h1 className="App-title"> Yahtzee! </h1>
           <section className="Game-dice-section">
             <Dice
-              dice={this.state.dice}
-              locked={this.state.locked}
+              dice={dice}
+              locked={locked}
+              disabled = {rollsLeft === 0}
               handleClick={this.toggleLocked}
+              rolling = {rolling}
             />{" "}
             <div className="Game-button-wrapper">
               <button
@@ -169,17 +213,20 @@ class Game extends Component {
                 * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/every
                 * Now every will return true if every element is true in the locked array, so the button
                 * will get disabled if every element in locked array is true
+                * this.state.rolling option makes sure that when the dices
+                * are rolling, the roll button stays disabled.
                 */
-                disabled={this.state.locked.every(x => x) || this.state.rollsLeft === 0}
-                onClick={this.roll}
+                disabled={locked.every(x => x) || rollsLeft === 0 || rolling}
+                onClick={this.animateRoll}
               >
-                {this.state.rollsLeft}
-                Rerolls Left{" "}
+                {/* {this.state.rollsLeft}
+                Rerolls Left{" "} */}
+                {this.displayRollInfo()}
               </button>{" "}
             </div>{" "}
           </section>{" "}
         </header>{" "}
-        <ScoreTable doScore={this.doScore} scores={this.state.scores} />{" "}
+        <ScoreTable doScore={this.doScore} scores={scores} />{" "}
       </div>
     );
   }

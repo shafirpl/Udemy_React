@@ -15,7 +15,6 @@ h2 {
   display: inline-block;
 }
 .Game-dice-section {
-  width: 80%;
   margin-left: auto;
   margin-right: auto;
   margin-top: 0;
@@ -69,7 +68,6 @@ h2 {
 }
 
 .Game-header {
-  width: 100%;
   background: linear-gradient(-45deg, #673ab7, #9c27b0);
   background-size: 400% 400%;
   -webkit-animation: Gradient 15s ease infinite;

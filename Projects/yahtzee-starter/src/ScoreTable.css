@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   font-size: 0.9rem;
-  width: 80%;
+  width: fit-content;
   background-color: white;
   padding: 1em;
   cursor: pointer;
@@ -17,4 +17,8 @@
 .ScoreTable-section {
   vertical-align: top;
   width: 100%;
+}
+
+.totalScore{
+  text-transform: uppercase;
 }

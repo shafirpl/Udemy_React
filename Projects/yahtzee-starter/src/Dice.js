@@ -13,7 +13,9 @@ class Dice extends Component {
       */
         <Die handleClick={this.props.handleClick}
           val={d}
-
+          //only the rolls that are not disabled should be allowed to roll
+          rolling = {this.props.rolling && !this.props.locked[idx]}
+          disabled = {this.props.disabled}
           locked={this.props.locked[idx]}
           idx={idx}
           key={idx} />
