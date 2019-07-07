@@ -7,3 +7,14 @@
   border-radius: 10px;
   text-align: center;
 }
+
+
+.Message a {
+  color: white;
+  text-decoration: none;
+}
+
+.Message a:hover {
+  text-decoration: underline;
+} 
+

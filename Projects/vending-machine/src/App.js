@@ -4,12 +4,14 @@ import Chips from './Chips';
 import Soda from './Soda';
 import Sardines from './Sardines';
 import VendingMachine from './VendingMachine';
+import Navbar from './Navbar.jsx';
 import './App.css';
 
 
 function App() {
   return (
     <div className="App">
+      <Navbar />
       <Switch>
         <Route exact path="/" render={() => <VendingMachine />} />
         <Route exact path="/soda" render={() => <Soda />} />
