@@ -6,7 +6,7 @@ import TextField from '@material-ui/core/TextField';
 import useInputState from './hooks/useInputState.jsx';
 
 //context
-import {TodosContext} from './context/todo.context.jsx';
+import {DispatchContext} from './context/todo.context.jsx';
 
 
 function TodoForm() {
@@ -25,7 +25,7 @@ function TodoForm() {
     * we have access to all the functions passed as value to that context (see the context file)
     * And basically they have addTodo, editTodo, removeTodo and toggleTodo functions
     */
-    const { dispatch } = useContext(TodosContext);
+    const dispatch = useContext(DispatchContext);
     return (
         <Paper style={{margin: "1rem 0", padding: "0 1rem"}}>
             {/* 

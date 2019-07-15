@@ -4,13 +4,13 @@ import TextField from '@material-ui/core/TextField';
 
 import useInputState from './hooks/useInputState.jsx';
 
-import {TodosContext} from './context/todo.context.jsx';
+import {DispatchContext} from './context/todo.context.jsx';
 
 import './EditToDoForm.css';
 
 
 function EditToDoForm(props) {
-    const { dispatch } = useContext(TodosContext);
+    const dispatch  = useContext(DispatchContext);
     const [value, handleChange, reset] = useInputState(props.task);
     return (
         <form 
