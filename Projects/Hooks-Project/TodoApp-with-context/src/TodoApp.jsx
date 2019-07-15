@@ -57,6 +57,12 @@ function TodoApp() {
             { /* justify center will center the app */}
             <Grid container justify="center" style={{ marginTop: "1rem" }}>
                 <Grid item xs={11} md={8} lg={4}>
+                    {/* 
+                    * Remember, in order for context to work, we have to do two things:
+                    * 1. We need to wrap the child components, where we would use the 
+                    * the context, within the theme provider.
+                    * Here we are doing exactly that
+                    */}
                     <TodosProvider>
                         <TodoForm />
                         <TodoList />

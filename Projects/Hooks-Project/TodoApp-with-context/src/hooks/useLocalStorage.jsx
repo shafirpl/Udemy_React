@@ -13,8 +13,19 @@ import {useState, useEffect} from 'react';
 const useLocalStorage = (key, defaultVal) => {
 
     // make piece of state based on the value of local storage
+
+    /*
+    * useState requires a initial value. So we wrote an arrow function to determine what value
+    * to be passed. Our aim is to actually first see if we do have anything stored on the local 
+    * storage, and if it, use that. If not, then pass the defaultVal that we get.
+    */
     const [state, setState] = useState(() => {
         let val;
+        /*
+        * this is called short circuit evaluation. It will first try to grab the stored value 
+        * using the key, and if it can't find it, it will store the defaultVal. Also 
+        *    
+        */
         try{
             val = JSON.parse(window.localStorage.getItem(key) || String(defaultVal));
         }
@@ -30,10 +41,14 @@ const useLocalStorage = (key, defaultVal) => {
     * on other changes, we specify that as a second argument in [], since we want to run
     * this function only when the state changes, we specify [state]
     * Also local storage cannot take object, that is why we need to convert the object to string
+    * 
+    * So what will actually happen, is that we pass/return the setState function to others who 
+    * use this, and those other will call setState function to change this state. And whenever
+    * this state is changed, it will run the useEffect function.
     */
     useEffect(() => {
         window.localStorage.setItem(key, JSON.stringify(state));
-    }, [state]);
+    }, [key, state]);
 
     return [state,setState];
 }
