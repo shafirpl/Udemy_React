@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, {useContext } from 'react';
 
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -15,7 +15,7 @@ import EditToDoForm from './EditToDoForm.jsx';
 import { TodosContext } from './context/todo.context.jsx';
 
 function TodoItem(props) {
-    const { removeTodo, toogleTodo } = useContext(TodosContext );
+    const { dispatch } = useContext(TodosContext );
     const [isEditing, toggle] = useToggleState();
     const editing = (
         <EditToDoForm
@@ -34,7 +34,7 @@ function TodoItem(props) {
 
     const listItem = (
         <>
-            <Checkbox tabIndex={-1} checked={props.completed} onClick={() => toogleTodo(props.id)} />
+            <Checkbox tabIndex={-1} checked={props.completed} onClick={() => dispatch({type:"TOGGLE", id: props.id})} />
             <ListItemText style={{ textDecoration: props.completed ? "line-through" : "none" }}>
                 {props.task}
             </ListItemText>
@@ -43,7 +43,7 @@ function TodoItem(props) {
             * on the right end of the list item
             */}
             <ListItemSecondaryAction>
-                <IconButton aria-label="Delete" onClick={() => removeTodo(props.id)}>
+                <IconButton aria-label="Delete" onClick={() => dispatch({type:"REMOVE", id: props.id})}>
                     <DeleteIcon></DeleteIcon>
                 </IconButton>
                 <IconButton aria-label="Edit" onClick={toggle}>

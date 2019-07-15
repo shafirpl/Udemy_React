@@ -10,14 +10,14 @@ import './EditToDoForm.css';
 
 
 function EditToDoForm(props) {
-    const { editTodo } = useContext(TodosContext);
+    const { dispatch } = useContext(TodosContext);
     const [value, handleChange, reset] = useInputState(props.task);
     return (
         <form 
             className = "EditToDoForm"
             onSubmit={(evt) => {
             evt.preventDefault();
-            editTodo(props.id, value);
+            dispatch({type:"EDIT", id: props.id, newTask: value})
             reset();
             /*
             * We are using it to change the state of isEditing from true to false, 

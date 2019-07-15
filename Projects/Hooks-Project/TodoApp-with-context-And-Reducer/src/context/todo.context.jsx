@@ -3,10 +3,10 @@
 * is kind of convention to name context file as something.context.jsx
 */
 
-import React, {createContext} from 'react';
+import React, {createContext, useReducer} from 'react';
 
-//importing the hooks
-import useTodoState from '../hooks/useTodoState.jsx';
+import todoReducer from '../reducer/todo.reducer.jsx';
+
 
 const defaultTodos = [
     {id: 1, task: "Play GTA Online", completed: false},
@@ -16,13 +16,13 @@ const defaultTodos = [
 export const TodosContext = createContext();
 
 export function TodosProvider(props){
-    const todoStuff = useTodoState(defaultTodos);
+    const [todos, dispatch] = useReducer(todoReducer,defaultTodos);
 
     /*
     * Here we are using the theme provider
     */
     return(
-        <TodosContext.Provider value={todoStuff}>
+        <TodosContext.Provider value={{todos, dispatch}}>
             {props.children}
         </TodosContext.Provider>
     )

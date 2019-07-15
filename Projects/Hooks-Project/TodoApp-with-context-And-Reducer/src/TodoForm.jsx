@@ -25,7 +25,7 @@ function TodoForm() {
     * we have access to all the functions passed as value to that context (see the context file)
     * And basically they have addTodo, editTodo, removeTodo and toggleTodo functions
     */
-    const { addTodo } = useContext(TodosContext);
+    const { dispatch } = useContext(TodosContext);
     return (
         <Paper style={{margin: "1rem 0", padding: "0 1rem"}}>
             {/* 
@@ -36,7 +36,7 @@ function TodoForm() {
                 // this will stop the app from refreshing the page when we submit the form
                 evt.preventDefault();
                 // this function is passed to this component as props from the TodoApp
-                addTodo(value);
+                dispatch({type:"ADD", task: value});
                 // this function is coming from userInputState.jsx file, that we are using at line
                 // 14
                 reset();

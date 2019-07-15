@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 
 // material ui stuff
@@ -11,7 +11,7 @@ import Grid from '@material-ui/core/Grid';
 //other components
 import TodoList from './TodoList.jsx';
 import TodoForm from './TodoForm.jsx';
-import useTodoState from './hooks/useTodoState.jsx';
+
 
 //context
 import { TodosProvider } from './context/todo.context.jsx';
