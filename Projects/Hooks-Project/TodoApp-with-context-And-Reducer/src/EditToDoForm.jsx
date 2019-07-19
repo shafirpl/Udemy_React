@@ -23,6 +23,9 @@ function EditToDoForm(props) {
             * We are using it to change the state of isEditing from true to false, 
             * which is used inside TodoItem to decide whether we should show the task
             * or this edit form
+            * 
+            * If we don't pass anything to handleChange, the handleChange will
+            * automatically take in the event object
             */
             props.toggleEditForm();
         }}>
