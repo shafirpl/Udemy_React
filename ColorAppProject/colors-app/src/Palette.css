@@ -1,0 +1,12 @@
+/* Wew want to have some spacing for the navbar, giving 100 vh to the
+Palette will ocuupy full view-height or full viewable screen height,
+then we need 10% for the navbar, and the rest 90% for the colorboxes.
+That is why we are giving Palette-colors 90% */
+
+.Palette{
+    height: 100vh;
+}
+
+.Palette-colors{
+    height: 90%;
+}
