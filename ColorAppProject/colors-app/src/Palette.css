@@ -10,3 +10,9 @@ That is why we are giving Palette-colors 90% */
 .Palette-colors{
     height: 90%;
 }
+
+.slider{
+    width: 340px;
+    margin: 0 10px;
+    display: inline-block;
+}

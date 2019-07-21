@@ -1,7 +1,8 @@
-import React, {Component} from 'react';
-import Palette from './Palette.jsx';
-import './App.css';
-import seedColors from './seedColors.jsx';
+import React, { Component } from "react";
+import Palette from "./Palette.jsx";
+import "./App.css";
+import seedColors from "./seedColors.jsx";
+import { generatePalette } from "./colorHelper";
 
 /*
 * If we look at the seedcolors component,
@@ -19,14 +20,13 @@ import seedColors from './seedColors.jsx';
 */
 
 class App extends Component {
-  render(){
-      return (
-        <div>
-          <Palette {...seedColors[4]}/>
-        </div>
-      );
+  render() {
+    return (
+      <div>
+        <Palette palette={generatePalette(seedColors[4])} />
+      </div>
+    );
   }
-
 }
 
 export default App;
