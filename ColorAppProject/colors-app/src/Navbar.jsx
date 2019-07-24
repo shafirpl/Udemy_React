@@ -6,24 +6,34 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import Snackbar from '@material-ui/core/Snackbar';
 import CloseIcon from '@material-ui/icons/Close';
+import IconButton from '@material-ui/core/IconButton';
+
 
 
 export default class Navbar extends Component {
   constructor(props) {
     super(props);
-    this.state = { format: "hex" };
-    this.handleChange = this.handleChange.bind(this);
+    this.state = { format: "hex", open: false };
+    this.handleFormatChange = this.handleFormatChange.bind(this);
+    this.closeSnackbar = this.closeSnackbar.bind(this);
   }
 
-  handleChange(evt) {
+  handleFormatChange(evt) {
     /*
-    * the props.handleChange corresponds to the changeFormat function
+    * the props.handleFormatChange corresponds to the changeFormat function
     * in Paletter.jsx file. Passing a value to that function will change
     * the format of color in Paletter.jsx state when the function is triggered.
     */
     this.setState({ format: evt.target.value });
-    this.props.handleChange(evt.target.value);
+    this.props.handleFormatChange(evt.target.value);
+    // this will set the open state to true
+    // so that the snackbar opens up
+    this.setState({open:true});
     ;
+  }
+
+  closeSnackbar() {
+    this.setState({ open: false });
   }
   render() {
     const { level, changeLevel } = this.props;
@@ -70,13 +80,50 @@ export default class Navbar extends Component {
           */}
           <Select
             value={format}
-            onChange={this.handleChange}>
+            onChange={this.handleFormatChange}>
             <MenuItem value="hex"> HEX - #fff</MenuItem>
             <MenuItem value="rgb"> RGB - rgb(255,255,255)</MenuItem>
             <MenuItem value="rgba"> RGBA - rgba(255,255,255,1.0)</MenuItem>
           </Select>
         </div>
-        <Snackbar anchorOrigin>
+        {/* 
+        * Snackbar documentation: https://material-ui.com/api/snackbar/
+        * AnchorOrigin tells us where the snackbar will be
+        * located. for example, bottom left means the pop up
+        * will be in the bottom left of our screen
+        * open defines whether the snackbar is opened or closed
+        * autohide takes an argument in miliseconds and tells us
+        * that after that many miliseconds it will hide itself
+        * message is the thing that will display when this 
+        * snackbar is open
+        * content porps is just a accessiblity thing, nothing important
+        * 
+        * Now in materials ui any icon needs to be under icon button,
+        * just like bootstrap where columns need to be under rows
+        * onClose will trigger the close function when we click
+        * anywhere on the screen
+        */}
+        <Snackbar
+          onClose={this.closeSnackbar}
+          anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+          open={this.state.open}
+          autoHideDuration={3000}
+          message={
+            <span id="message-id">Format Changed to {format.toUpperCase()}</span>
+          }
+          ContentProps={{
+            "aria-describedby": "message-id"
+          }}
+          action={[
+            <IconButton
+              aria-label="close"
+              key="close"
+              onClick={this.closeSnackbar}
+              color="inherit">
+              <CloseIcon />
+            </IconButton>
+          ]}
+        >
 
         </Snackbar>
       </header>
