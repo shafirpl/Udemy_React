@@ -3,6 +3,8 @@ import Palette from "./Palette.jsx";
 import "./App.css";
 import seedColors from "./seedColors.jsx";
 import { generatePalette } from "./colorHelper";
+import {Route, Switch} from 'react-router-dom';
+import Palettelist from './Palettelist.jsx';
 
 /*
 * If we look at the seedcolors component,
@@ -20,11 +22,46 @@ import { generatePalette } from "./colorHelper";
 */
 
 class App extends Component {
+  /*
+  * we need to find the palette from the id from
+  * the seedcolors file
+  * So what this is doing is that it tries to find the palette id that
+  * matches the one on the seedcolor 
+  * So after finding it, the find function will return the palette.
+  * However, we need to return that again from our  findPallatte function to
+  * whomever called this funciton. So we need to return the palette that we found using find 
+  * function to the calling function, otherwise the find function will return the palette
+  * but thne findPallete function will just grab it and sit quitely. In order to pass it to
+  * the calling function, we need to return that thing again from find funciton.
+  */
+  findPallette(id){
+   return seedColors.find((palette)=>{
+      return palette.id === id;
+    })
+  }
   render() {
     return (
-      <div>
-        <Palette palette={generatePalette(seedColors[4])} />
-      </div>
+      <Switch>
+        <Route exact path="/" render={() => <Palettelist palettes = {seedColors}/>} />
+        <Route
+          exact
+          path="/palette/:id"
+          render={routeProps => (
+            /*
+             * Our paletter component is written in such a way that it expects the full pallete
+             * information. So just supplying the palltee with id is not enough, we need to break
+             * down that paletter in a way that is consumable for the Palette component. The function
+             * generatePalette does that for us. So we need to pass in the palette to that function
+             */
+            <Palette
+              palette={generatePalette (this.findPallette(routeProps.match.params.id))}
+            />
+          )}
+        />
+      </Switch>
+      // <div>
+      //   <Palette palette={generatePalette(seedColors[4])} />
+      // </div>
     );
   }
 }
