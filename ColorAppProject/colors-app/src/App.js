@@ -3,8 +3,8 @@ import Palette from "./Palette.jsx";
 import "./App.css";
 import seedColors from "./seedColors.jsx";
 import { generatePalette } from "./colorHelper";
-import {Route, Switch} from 'react-router-dom';
-import Palettelist from './Palettelist.jsx';
+import { Route, Switch } from "react-router-dom";
+import Palettelist from "./Palettelist.jsx";
 
 /*
 * If we look at the seedcolors component,
@@ -23,26 +23,32 @@ import Palettelist from './Palettelist.jsx';
 
 class App extends Component {
   /*
-  * we need to find the palette from the id from
-  * the seedcolors file
-  * So what this is doing is that it tries to find the palette id that
-  * matches the one on the seedcolor 
-  * So after finding it, the find function will return the palette.
-  * However, we need to return that again from our  findPallatte function to
-  * whomever called this funciton. So we need to return the palette that we found using find 
-  * function to the calling function, otherwise the find function will return the palette
-  * but thne findPallete function will just grab it and sit quitely. In order to pass it to
-  * the calling function, we need to return that thing again from find funciton.
-  */
-  findPallette(id){
-   return seedColors.find((palette)=>{
+   * we need to find the palette from the id from
+   * the seedcolors file
+   * So what this is doing is that it tries to find the palette id that
+   * matches the one on the seedcolor
+   * So after finding it, the find function will return the palette.
+   * However, we need to return that again from our  findPallatte function to
+   * whomever called this funciton. So we need to return the palette that we found using find
+   * function to the calling function, otherwise the find function will return the palette
+   * but thne findPallete function will just grab it and sit quitely. In order to pass it to
+   * the calling function, we need to return that thing again from find funciton.
+   */
+  findPallette(id) {
+    return seedColors.find(palette => {
       return palette.id === id;
-    })
+    });
   }
   render() {
     return (
       <Switch>
-        <Route exact path="/" render={() => <Palettelist palettes = {seedColors}/>} />
+        <Route
+          exact
+          path="/"
+          render={routeProps => (
+            <Palettelist palettes={seedColors} {...routeProps} />
+          )}
+        />
         <Route
           exact
           path="/palette/:id"
@@ -54,9 +60,16 @@ class App extends Component {
              * generatePalette does that for us. So we need to pass in the palette to that function
              */
             <Palette
-              palette={generatePalette (this.findPallette(routeProps.match.params.id))}
+              palette={generatePalette(
+                this.findPallette(routeProps.match.params.id)
+              )}
             />
           )}
+        />
+        <Route
+          exact
+          path="/palette/:paletteId/:colorId"
+          render={() => <h1>Single Color Page</h1>}
         />
       </Switch>
       // <div>

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {Link} from 'react-router-dom';
 import CopyToClipBoard from 'react-copy-to-clipboard';
 import './ColorBox.css';
 
@@ -48,7 +49,29 @@ class ColorBox extends Component {
                         </div>
                         <button className="copy-button">Copy</button>
                     </div>
-                    <span className="see-more">More</span>
+                     {/* 
+                    * The problem with this approach is that,
+                    * we have the copy animation firing up whenever
+                    * we click on any part of this color box because 
+                    * the function is triggered on anywhere we click.
+                    * That also includes this link tag, since they are
+                    * part of the whole colorbox as well. This is not 
+                    * a very good user experience.
+                    * The way we fix it to use a function called stop propagation, it 
+                    * takes the event object and calls the function on that event
+                    * It will prevent the onCopy property to fire up the function
+                    * that has been assigned to it
+                    * https://www.udemy.com/modern-react-bootcamp/learn/lecture/14384664#questions
+                    * Watch from 3:29 to get idea how that function works
+                    */}
+                    {/* <Link exact to="/">
+                        <span className="see-more">More</span>
+                    </Link> */}
+
+                    <Link exact to="/" onClick={e => e.stopPropagation()}>
+                        <span className="see-more">More</span>
+                    </Link>
+                    
                 </div>
             </CopyToClipBoard>
 
