@@ -5,6 +5,7 @@ import seedColors from "./seedColors.jsx";
 import { generatePalette } from "./colorHelper";
 import { Route, Switch } from "react-router-dom";
 import Palettelist from "./Palettelist.jsx";
+import SingleColorPalette from "./SingleColorPalette.jsx";
 
 /*
 * If we look at the seedcolors component,
@@ -69,7 +70,7 @@ class App extends Component {
         <Route
           exact
           path="/palette/:paletteId/:colorId"
-          render={() => <h1>Single Color Page</h1>}
+          render={() => <SingleColorPalette/>}
         />
       </Switch>
       // <div>
