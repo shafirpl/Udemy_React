@@ -67,11 +67,25 @@ class App extends Component {
             />
           )}
         />
+
         <Route
           exact
           path="/palette/:paletteId/:colorId"
-          render={() => <SingleColorPalette/>}
-        />
+          render={routeProps => (
+            /*
+             * Our paletter component is written in such a way that it expects the full pallete
+             * information. So just supplying the palltee with id is not enough, we need to break
+             * down that paletter in a way that is consumable for the Palette component. The function
+             * generatePalette does that for us. So we need to pass in the palette to that function
+             */
+            <SingleColorPalette
+              colorId = {routeProps.match.params.colorId}
+              palette={generatePalette(
+                this.findPallette(routeProps.match.params.paletteId)
+              )}
+            />
+          )}
+          />
       </Switch>
       // <div>
       //   <Palette palette={generatePalette(seedColors[4])} />

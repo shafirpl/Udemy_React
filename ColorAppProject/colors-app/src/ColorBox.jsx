@@ -17,7 +17,7 @@ class ColorBox extends Component {
     }
 
     render() {
-        const { name, background, paletteId, id, moreUrl } = this.props;
+        const { name, background, paletteId, id, moreUrl, showLink } = this.props;
         const { copied } = this.state;
         return (
             /*
@@ -79,9 +79,16 @@ class ColorBox extends Component {
                     */}
 
                     {/* <Link to={`/palette/${paletteId}/${id}`} onClick={e => e.stopPropagation()}> */}
-                    <Link to={moreUrl} onClick={e => e.stopPropagation()}>
+                    {/*
+                    * We don't want to show the link with the text show more
+                    * when we are rendering the single color palette. So 
+                    * this is short circuting to not show the link when we
+                    * have showLink to be false
+                    */}
+                    {showLink && (<Link to={moreUrl} onClick={e => e.stopPropagation()}>
                         <span className="see-more">More</span>
                     </Link>
+                    )}
 
                 </div>
             </CopyToClipBoard>
