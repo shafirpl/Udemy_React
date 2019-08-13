@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import CopyToClipBoard from 'react-copy-to-clipboard';
 import './ColorBox.css';
+import Chroma from 'chroma-js';
 
 class ColorBox extends Component {
     constructor(props) {
@@ -17,8 +18,9 @@ class ColorBox extends Component {
     }
 
     render() {
-        const { name, background, paletteId, id, moreUrl, showLink } = this.props;
+        const { name, background, moreUrl, showLink } = this.props;
         const { copied } = this.state;
+        const isDarkColor = Chroma(background).luminance() <= 0.05;
         return (
             /*
             * onCopy property is a property provided by the Copy to Clip board package.
