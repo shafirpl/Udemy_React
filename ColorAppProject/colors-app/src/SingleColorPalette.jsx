@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import ColorBox from "./ColorBox.jsx";
+import Navbar from "./Navbar.jsx";
+import PaletteFooter from './PaletteFooter.jsx';
 
 /*
 * Here what we are doing is that, we will get the full palette
@@ -16,13 +18,18 @@ import ColorBox from "./ColorBox.jsx";
 export default class SingleColorPalette extends Component {
     constructor(props){
         super(props);
+        this.state = { format: "hex" };
         /*
         * The reason we are using underscore in variable name is:
         * https://stackoverflow.com/questions/44734399/what-is-the-underscore-in-javascript
         */
-        this._shades = this.gatherShades(this.props.palette, this.props.colorId)
+        this._shades = this.gatherShades(this.props.palette, this.props.colorId);
+        this.changeFormat = this.changeFormat.bind(this);
     }
 
+    changeFormat(val) {
+        this.setState({ format: val });
+    }
     gatherShades(palette, colorToFilterBy){
         let shades = [];
         let allColors = palette.colors;
@@ -57,19 +64,30 @@ export default class SingleColorPalette extends Component {
     }
 
     render() {
+        const { format } = this.state;
+        const { paletteName, emoji } = this.props.palette;
          const colorBoxes = this._shades.map(color=>
             <ColorBox 
             key = {color.id}
             name = {color.name}
-            background = {color.hex}
+            background={color[format]}
             showLink = {false}
             />)
         return (
             <div className="Palette">
-                <h1>Single Color Palette</h1>
+                <Navbar
+                    handleFormatChange={this.changeFormat}
+                    showingAllColors = {false} />
+                {this.props.paletteName}
+                {this.props.emoji}
                 <div className="Palette-colors">
                     {colorBoxes}
                 </div>
+
+                <PaletteFooter 
+                    paletteName={paletteName}
+                    emoji = {emoji}
+                    />
             </div>
         )
     }

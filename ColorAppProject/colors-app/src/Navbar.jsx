@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import "./Navbar.css";
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import Snackbar from '@material-ui/core/Snackbar';
@@ -29,7 +29,7 @@ export default class Navbar extends Component {
     this.props.handleFormatChange(evt.target.value);
     // this will set the open state to true
     // so that the snackbar opens up
-    this.setState({open:true});
+    this.setState({ open: true });
     ;
   }
 
@@ -37,7 +37,7 @@ export default class Navbar extends Component {
     this.setState({ open: false });
   }
   render() {
-    const { level, changeLevel } = this.props;
+    const { level, changeLevel, showingAllColors } = this.props;
     const { format } = this.state;
     return (
       <header className="Navbar">
@@ -56,18 +56,22 @@ export default class Navbar extends Component {
          * to the function specified there automatically
          */}
 
-        <div className="slider-container">
-          <div className="slider">
-            <span>Level:{level}</span>
-            <Slider
-              defaultValue={level}
-              min={100}
-              max={900}
-              step={100}
-              onAfterChange={changeLevel}
-            />
-          </div>
-        </div>
+        {
+          showingAllColors &&
+          (<div className="slider-container">
+            <div className="slider">
+              <span>Level:{level}</span>
+              <Slider
+                defaultValue={level}
+                min={100}
+                max={900}
+                step={100}
+                onAfterChange={changeLevel}
+              />
+            </div>
+          </div>)
+        }
+
         <div className="select-container">
           {/* 
           * this select component from material ui
