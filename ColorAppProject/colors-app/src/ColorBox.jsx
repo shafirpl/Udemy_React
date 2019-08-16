@@ -20,7 +20,15 @@ class ColorBox extends Component {
     render() {
         const { name, background, moreUrl, showLink } = this.props;
         const { copied } = this.state;
-        const isDarkColor = Chroma(background).luminance() <= 0.05;
+        /*
+        * Basically what we are doing is that, using the chroma, we are figuring out the luminance of color. 
+        * https://github.com/gka/chroma.js/issues/181
+        * The luminace of darkest black is 0 and lightest white is 1, so Colt kinda tried with different values, and it seems like less 
+        * than 0.08, white color text works great
+        * 
+        */
+        const isDarkColor = Chroma(background).luminance() <= 0.08;
+        const isLightColor = Chroma(background).luminance() >= 0.7;
         return (
             /*
             * onCopy property is a property provided by the Copy to Clip board package.
@@ -43,14 +51,14 @@ class ColorBox extends Component {
                     <div className={`copy-overlay ${copied && "show"}`} style={{ background }} />
                     <div className={`copy-msg ${copied && "show"}`}>
                         <h1>Copied</h1>
-                        <p>{this.props.background}</p>
+                        <p className={isLightColor && "dark-text"}>{this.props.background}</p>
 
                     </div>
                     <div className="copy-container">
                         <div className="box-content">
-                            <span>{name}</span>
+                            <span className={isDarkColor && "light-text"}>{name}</span>
                         </div>
-                        <button className="copy-button">Copy</button>
+                        <button className={`copy-button ${isLightColor && "dark-text"}`}>Copy</button>
                     </div>
                     {/* 
                     * The problem with this approach is that,
@@ -88,7 +96,7 @@ class ColorBox extends Component {
                     * have showLink to be false
                     */}
                     {showLink && (<Link to={moreUrl} onClick={e => e.stopPropagation()}>
-                        <span className="see-more">More</span>
+                        <span className={`see-more ${isLightColor && "dark-text"}`}>MORE</span>
                     </Link>
                     )}
 
